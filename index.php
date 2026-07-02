@@ -75,6 +75,10 @@ requireAuth();
         </ul>
 
         <p class="empty" x-show="items.length === 0" x-cloak>Liste vide. Ajoutez votre premier article !</p>
+
+        <button class="clear-btn" x-show="hasCheckedItems()" x-cloak @click="clearChecked()">
+            Nettoyer les articles cochés
+        </button>
     </section>
 
 </main>

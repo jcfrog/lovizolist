@@ -22,6 +22,10 @@ function app() {
             return [...this.items].sort((a, b) => (a.is_checked - b.is_checked) || (a.id - b.id));
         },
 
+        hasCheckedItems() {
+            return this.items.some((item) => item.is_checked);
+        },
+
         async loadLists(silent = false) {
             try {
                 const res = await fetch('api/lists.php');
@@ -126,6 +130,19 @@ function app() {
             } catch (e) {
                 this.items = backup;
                 alert("Impossible de supprimer l'article.");
+            }
+        },
+
+        async clearChecked() {
+            if (!this.currentList) return;
+            const backup = this.items;
+            this.items = this.items.filter((i) => !i.is_checked);
+            try {
+                const res = await fetch(`api/items.php?clear_checked_for_list=${this.currentList.id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error();
+            } catch (e) {
+                this.items = backup;
+                alert('Impossible de nettoyer les articles cochés.');
             }
         },
     };

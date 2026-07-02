@@ -322,6 +322,23 @@ input {
     font-size: 0.95rem;
 }
 
+.clear-btn {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.clear-btn:active {
+    background: var(--color-border);
+}
+
 /* Responsive tweaks */
 
 @media (min-width: 640px) {

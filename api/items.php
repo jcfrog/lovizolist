@@ -66,6 +66,13 @@ if ($method === 'PATCH') {
 }
 
 if ($method === 'DELETE') {
+    $listId = (int) ($_GET['clear_checked_for_list'] ?? 0);
+    if ($listId > 0) {
+        $stmt = $db->prepare('DELETE FROM items WHERE list_id = ? AND is_checked = 1');
+        $stmt->execute([$listId]);
+        respond(['success' => true]);
+    }
+
     $id = (int) ($_GET['id'] ?? 0);
     if ($id <= 0) {
         respond(['error' => 'Identifiant invalide'], 422);
