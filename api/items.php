@@ -20,7 +20,11 @@ if ($method === 'GET') {
          ORDER BY is_checked ASC, created_at ASC'
     );
     $stmt->execute([$listId]);
-    respond($stmt->fetchAll());
+    $items = $stmt->fetchAll();
+    foreach ($items as &$item) {
+        $item['is_checked'] = (int) $item['is_checked'];
+    }
+    respond($items);
 }
 
 if ($method === 'POST') {
