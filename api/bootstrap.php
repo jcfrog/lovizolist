@@ -21,7 +21,7 @@ function jsonBody(): array
     return is_array($data) ? $data : [];
 }
 
-function respond(mixed $data, int $status = 200): never
+function respond($data, int $status = 200)
 {
     http_response_code($status);
     echo json_encode($data);
