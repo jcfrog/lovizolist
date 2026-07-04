@@ -14,7 +14,7 @@ if ($method === 'GET') {
     }
 
     $stmt = $db->prepare(
-        'SELECT id, list_id, name, is_checked, added_by, checked_by, created_at, checked_at
+        'SELECT id, list_id, name, is_checked, created_at, checked_at
          FROM items
          WHERE list_id = ?
          ORDER BY is_checked ASC, created_at ASC'
@@ -36,16 +36,14 @@ if ($method === 'POST') {
         respond(['error' => 'Données invalides'], 422);
     }
 
-    $stmt = $db->prepare('INSERT INTO items (list_id, name, added_by) VALUES (?, ?, ?)');
-    $stmt->execute([$listId, $name, currentMember()]);
+    $stmt = $db->prepare('INSERT INTO items (list_id, name) VALUES (?, ?)');
+    $stmt->execute([$listId, $name]);
 
     respond([
         'id' => (int) $db->lastInsertId(),
         'list_id' => $listId,
         'name' => $name,
         'is_checked' => 0,
-        'added_by' => currentMember(),
-        'checked_by' => null,
     ], 201);
 }
 
@@ -59,10 +57,10 @@ if ($method === 'PATCH') {
     }
 
     if ($isChecked) {
-        $stmt = $db->prepare('UPDATE items SET is_checked = 1, checked_by = ?, checked_at = NOW() WHERE id = ?');
-        $stmt->execute([currentMember(), $id]);
+        $stmt = $db->prepare('UPDATE items SET is_checked = 1, checked_at = NOW() WHERE id = ?');
+        $stmt->execute([$id]);
     } else {
-        $stmt = $db->prepare('UPDATE items SET is_checked = 0, checked_by = NULL, checked_at = NULL WHERE id = ?');
+        $stmt = $db->prepare('UPDATE items SET is_checked = 0, checked_at = NULL WHERE id = ?');
         $stmt->execute([$id]);
     }
 

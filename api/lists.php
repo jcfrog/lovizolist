@@ -9,7 +9,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
     $stmt = $db->query(
-        'SELECT l.id, l.name, l.created_by, l.created_at,
+        'SELECT l.id, l.name, l.created_at,
                 COUNT(i.id) AS total_count,
                 SUM(CASE WHEN i.is_checked = 1 THEN 1 ELSE 0 END) AS checked_count
          FROM lists l
@@ -29,8 +29,8 @@ if ($method === 'POST') {
         respond(['error' => 'Nom de liste invalide'], 422);
     }
 
-    $stmt = $db->prepare('INSERT INTO lists (name, created_by) VALUES (?, ?)');
-    $stmt->execute([$name, currentMember()]);
+    $stmt = $db->prepare('INSERT INTO lists (name) VALUES (?)');
+    $stmt->execute([$name]);
 
     respond(['id' => (int) $db->lastInsertId(), 'name' => $name], 201);
 }

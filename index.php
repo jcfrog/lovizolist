@@ -3,9 +3,6 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/includes/auth.php';
-
-requireAuth();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -24,10 +21,6 @@ requireAuth();
 
 <header class="topbar">
     <h1>🛒 Courses</h1>
-    <div class="member">
-        <span><?= htmlspecialchars(currentMember()) ?></span>
-        <a href="logout.php" class="logout">Quitter</a>
-    </div>
 </header>
 
 <main class="container">
